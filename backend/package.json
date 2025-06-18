@@ -21,7 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "joi": "^17.11.0",
     "multer": "^1.4.5-lts.1",
-    "better-sqlite3": "^9.2.2",
+    "better-sqlite3": "^11.10.0",
     "winston": "^3.11.0",
     "googleapis": "^129.0.0",
     "exceljs": "^4.4.0",
