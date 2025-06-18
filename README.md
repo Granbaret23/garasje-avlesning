@@ -7,7 +7,7 @@ En Docker-basert webapplikasjon for registrering og sporing av målerverdier (mi
 ### Med Docker Compose (Anbefalt)
 ```bash
 # Klon repository
-git clone https://github.com/torsteinpaulsen/garasje-avlesning.git
+git clone https://github.com/Granbaret23/garasje-avlesning.git
 cd garasje-avlesning
 
 # Kopier og konfigurer miljøvariabler
@@ -93,7 +93,7 @@ REACT_APP_API_URL=http://localhost:3001/api
 
 1. Gå til Docker tab i Unraid WebUI
 2. Klikk "Add Container"
-3. Repository: `torsteinpaulsen/garasje-avlesning:latest`
+3. Repository: `granbaret23/garasje-avlesning:latest`
 4. Port: `3000:3001`
 5. Legg til 4 volumes til `/mnt/user/appdata/garasje-avlesning/`
 6. Apply og start!
@@ -153,8 +153,8 @@ Vi ønsker bidrag velkommen! Se [CONTRIBUTING.md](./CONTRIBUTING.md) for detalje
 ## Support
 
 - 📖 Dokumentasjon: Se guides og SPEC.md
-- 🐛 Bug reports: [GitHub Issues](https://github.com/torsteinpaulsen/garasje-avlesning/issues)
-- 💡 Feature requests: [GitHub Issues](https://github.com/torsteinpaulsen/garasje-avlesning/issues)
+- 🐛 Bug reports: [GitHub Issues](https://github.com/Granbaret23/garasje-avlesning/issues)
+- 💡 Feature requests: [GitHub Issues](https://github.com/Granbaret23/garasje-avlesning/issues)
 - 📧 Direkte kontakt: Opprett en GitHub Discussion
 
 ## Lisens

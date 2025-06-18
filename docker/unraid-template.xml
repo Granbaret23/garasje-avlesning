@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>Garasje-Avlesning</Name>
-  <Repository>torsteinpaulsen/garasje-avlesning</Repository>
-  <Registry>https://hub.docker.com/r/torsteinpaulsen/garasje-avlesning</Registry>
+  <Repository>granbaret23/garasje-avlesning</Repository>
+  <Registry>https://hub.docker.com/r/granbaret23/garasje-avlesning</Registry>
   <Network>bridge</Network>
   <MyIP/>
   <Shell>sh</Shell>
   <Privileged>false</Privileged>
-  <Support>https://github.com/torsteinpaulsen/garasje-avlesning</Support>
-  <Project>https://github.com/torsteinpaulsen/garasje-avlesning</Project>
+  <Support>https://github.com/Granbaret23/garasje-avlesning</Support>
+  <Project>https://github.com/Granbaret23/garasje-avlesning</Project>
   <Overview>
     En Docker-basert webapplikasjon for registrering og sporing av målerverdier (minusmålere) i garasje, 
     med automatisk synkronisering til Google Sheets.

@@ -6,12 +6,12 @@
   "author": "Torstein Paulsen <torsteinpaulsen@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/torsteinpaulsen/garasje-avlesning.git"
+    "url": "git+https://github.com/Granbaret23/garasje-avlesning.git"
   },
   "bugs": {
-    "url": "https://github.com/torsteinpaulsen/garasje-avlesning/issues"
+    "url": "https://github.com/Granbaret23/garasje-avlesning/issues"
   },
-  "homepage": "https://github.com/torsteinpaulsen/garasje-avlesning#readme",
+  "homepage": "https://github.com/Granbaret23/garasje-avlesning#readme",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
