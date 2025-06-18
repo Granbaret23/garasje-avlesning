@@ -59,6 +59,14 @@
     "typescript",
     "sqlite"
   ],
-  "author": "Your Name",
+  "author": "Torstein Paulsen <torsteinpaulsen@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/torsteinpaulsen/garasje-avlesning.git"
+  },
+  "bugs": {
+    "url": "https://github.com/torsteinpaulsen/garasje-avlesning/issues"
+  },
+  "homepage": "https://github.com/torsteinpaulsen/garasje-avlesning#readme",
   "license": "MIT"
 }
