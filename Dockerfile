@@ -21,18 +21,11 @@ FROM node:20-alpine AS backend-builder
 
 WORKDIR /app/backend
 
-# Copy backend package files
-COPY backend/package*.json ./
-COPY backend/tsconfig.json ./
+# Copy ALL backend files
+COPY backend ./
 
-# Install dependencies
+# Install dependencies (including tsx for running TypeScript)
 RUN npm ci || npm install
-
-# Copy all backend source files
-COPY backend/src ./src
-
-# Build backend
-RUN npm run build
 
 # Stage 3: Production image
 FROM node:20-alpine AS production
@@ -46,9 +39,8 @@ RUN adduser -S nodejs -u 1001
 
 WORKDIR /app
 
-# Copy backend build
-COPY --from=backend-builder /app/backend/dist ./backend/dist
-COPY --from=backend-builder /app/backend/package*.json ./backend/
+# Copy entire backend (no build, just source)
+COPY --from=backend-builder /app/backend ./backend
 
 # Copy frontend build
 COPY --from=frontend-builder /app/frontend/build ./frontend/build
@@ -73,6 +65,6 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 # Expose port
 EXPOSE 3001
 
-# Start application
+# Start application with tsx
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["node", "dist/index.js"]
+CMD ["npx", "tsx", "src/index.ts"]
