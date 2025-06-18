@@ -28,8 +28,8 @@ COPY backend/tsconfig.json ./
 # Install dependencies
 RUN npm ci || npm install
 
-# Copy backend source
-COPY backend/src/ ./src/
+# Copy all backend source files
+COPY backend/src ./src
 
 # Build backend
 RUN npm run build
