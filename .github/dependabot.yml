@@ -49,6 +49,9 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
+    ignore:
+      # Don't update Node.js - causes compatibility issues
+      - dependency-name: "node"
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"

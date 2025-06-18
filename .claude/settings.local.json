@@ -21,7 +21,9 @@
       "Bash(npm run lint)",
       "Bash(npx tsc:*)",
       "Bash(node:*)",
-      "Bash(CI=true GENERATE_SOURCEMAP=false npm run build)"
+      "Bash(CI=true GENERATE_SOURCEMAP=false npm run build)",
+      "Bash(nvm list:*)",
+      "Bash(docker run:*)"
     ],
     "deny": []
   }

@@ -1,19 +1,20 @@
 # Multi-stage build for optimized production image
 
-# Stage 1: Build frontend
+# Stage 1: Frontend (skip build if pre-built)
 FROM node:16-alpine AS frontend-builder
 
 WORKDIR /app/frontend
 
-# Copy frontend package files
-COPY frontend/package*.json ./
-RUN npm ci --legacy-peer-deps
-
-# Copy frontend source
+# Copy everything including pre-built files if they exist
 COPY frontend/ ./
 
-# Build frontend
-RUN npm run build
+# Only build if build directory doesn't exist
+RUN if [ ! -d "build" ]; then \
+      npm ci --legacy-peer-deps && \
+      npm run build; \
+    else \
+      echo "Using pre-built frontend"; \
+    fi
 
 # Stage 2: Build backend
 FROM node:16-alpine AS backend-builder
