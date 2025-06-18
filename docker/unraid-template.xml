@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>Garasje-Avlesning</Name>
-  <Repository>granbaret23/garasje-avlesning</Repository>
-  <Registry>https://hub.docker.com/r/granbaret23/garasje-avlesning</Registry>
+  <Repository>granbaret/garasje-avlesning</Repository>
+  <Registry>https://hub.docker.com/r/granbaret/garasje-avlesning</Registry>
   <Network>bridge</Network>
   <MyIP/>
   <Shell>sh</Shell>

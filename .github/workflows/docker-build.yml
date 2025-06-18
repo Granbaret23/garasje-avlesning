@@ -14,7 +14,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: granbaret23/garasje-avlesning
+  IMAGE_NAME: granbaret/garasje-avlesning
 
 jobs:
   build:

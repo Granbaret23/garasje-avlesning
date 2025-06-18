@@ -10,7 +10,9 @@
       "Bash(git push:*)",
       "Bash(git remote get-url:*)",
       "Bash(git remote set-url:*)",
-      "Bash(git tag:*)"
+      "Bash(git tag:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:hub.docker.com)"
     ],
     "deny": []
   }

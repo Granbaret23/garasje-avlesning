@@ -93,7 +93,7 @@ REACT_APP_API_URL=http://localhost:3001/api
 
 1. Gå til Docker tab i Unraid WebUI
 2. Klikk "Add Container"
-3. Repository: `granbaret23/garasje-avlesning:latest`
+3. Repository: `granbaret/garasje-avlesning:latest`
 4. Port: `3000:3001`
 5. Legg til 4 volumes til `/mnt/user/appdata/garasje-avlesning/`
 6. Apply og start!
