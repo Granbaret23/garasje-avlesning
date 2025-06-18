@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # NocoDB - Database med web UI for målerverdier
+  nocodb:
+    image: nocodb/nocodb:latest
+    container_name: nocodb-garasje
+    ports:
+      - "8080:8080"  # NocoDB Web UI
+    volumes:
+      - /mnt/user/appdata/nocodb:/usr/app/data
+    environment:
+      - NC_DB=/usr/app/data/noco.db
+      - NC_AUTH_JWT_SECRET=your-secret-key-here  # Endre dette!
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  # n8n - Workflow automation for Google Sheets sync
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n-garasje
+    ports:
+      - "5678:5678"  # n8n Web UI
+    volumes:
+      - /mnt/user/appdata/n8n:/home/node/.n8n
+      - /mnt/user/appdata/n8n/files:/files
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=ChangeThisPassword  # ENDRE DETTE!
+      - N8N_HOST=0.0.0.0
+      - WEBHOOK_URL=http://your-unraid-ip:5678/
+    restart: unless-stopped
+    depends_on:
+      - nocodb
+
+  # PostgreSQL for n8n (valgfritt, men anbefalt for produksjon)
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres-n8n
+    volumes:
+      - /mnt/user/appdata/postgres-n8n:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=n8n
+      - POSTGRES_PASSWORD=n8npassword  # ENDRE DETTE!
+      - POSTGRES_DB=n8n
+    restart: unless-stopped
+
+networks:
+  default:
+    name: garasje-network

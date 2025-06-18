@@ -1,0 +1,188 @@
+{
+  "name": "Garasje Målerverdier - NocoDB til Google Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "nocodb-new-reading",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "NocoDB Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "resource": "tableRow",
+        "tableId": "={{ $json.tableId }}",
+        "rowId": "={{ $json.data.id }}",
+        "projectId": "={{ $json.projectId }}"
+      },
+      "id": "get-full-record",
+      "name": "Get Full Record with Relations",
+      "type": "n8n-nodes-base.nocodb",
+      "typeVersion": 2,
+      "position": [450, 300],
+      "credentials": {
+        "nocoDb": {
+          "id": "1",
+          "name": "NocoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format data for Google Sheets\nconst item = $input.first().json;\n\n// Get current date/time\nconst now = new Date();\nconst dateStr = now.toLocaleDateString('no-NO');\nconst timeStr = now.toLocaleTimeString('no-NO');\n\n// Extract meter info\nconst meterName = item.måler?.navn || 'Ukjent';\nconst meterType = item.måler?.type || 'Ukjent';\n\n// Calculate consumption if previous reading exists\nlet consumption = '';\nif (item.måler?.siste_verdi && item.verdi) {\n  consumption = (item.verdi - item.måler.siste_verdi).toFixed(2);\n}\n\n// Format for Google Sheets\nreturn {\n  date: dateStr,\n  time: timeStr,\n  meter: meterName,\n  type: meterType,\n  value: item.verdi || 0,\n  consumption: consumption,\n  unit: item.måler?.enhet || 'kWh',\n  notes: item.notater || '',\n  hasImage: item.bilde ? 'Ja' : 'Nei'\n};"
+      },
+      "id": "format-data",
+      "name": "Format for Google Sheets",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "appendOrUpdate",
+        "sheetId": "YOUR-GOOGLE-SHEET-ID-HERE",
+        "range": "Avlesninger!A:I",
+        "options": {
+          "valueInputMode": "USER_ENTERED"
+        },
+        "dataMode": "autoMap",
+        "fieldsUi": {
+          "values": [
+            {
+              "fieldName": "Dato",
+              "fieldValue": "={{ $json.date }}"
+            },
+            {
+              "fieldName": "Tid",
+              "fieldValue": "={{ $json.time }}"
+            },
+            {
+              "fieldName": "Måler",
+              "fieldValue": "={{ $json.meter }}"
+            },
+            {
+              "fieldName": "Type",
+              "fieldValue": "={{ $json.type }}"
+            },
+            {
+              "fieldName": "Verdi",
+              "fieldValue": "={{ $json.value }}"
+            },
+            {
+              "fieldName": "Forbruk",
+              "fieldValue": "={{ $json.consumption }}"
+            },
+            {
+              "fieldName": "Enhet",
+              "fieldValue": "={{ $json.unit }}"
+            },
+            {
+              "fieldName": "Notater",
+              "fieldValue": "={{ $json.notes }}"
+            },
+            {
+              "fieldName": "Bilde",
+              "fieldValue": "={{ $json.hasImage }}"
+            }
+          ]
+        }
+      },
+      "id": "google-sheets",
+      "name": "Append to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [850, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "resource": "tableRow",
+        "tableId": "={{ $node['webhook-trigger'].json.tableId }}",
+        "rowId": "={{ $node['webhook-trigger'].json.data.måler_id }}",
+        "projectId": "={{ $node['webhook-trigger'].json.projectId }}",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "siste_verdi",
+              "fieldValue": "={{ $node['webhook-trigger'].json.data.verdi }}"
+            }
+          ]
+        }
+      },
+      "id": "update-last-value",
+      "name": "Update Last Value in Meter",
+      "type": "n8n-nodes-base.nocodb",
+      "typeVersion": 2,
+      "position": [850, 500],
+      "credentials": {
+        "nocoDb": {
+          "id": "1",
+          "name": "NocoDB account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "NocoDB Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Full Record with Relations",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Last Value in Meter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Full Record with Relations": {
+      "main": [
+        [
+          {
+            "node": "Format for Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format for Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Append to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "saveDataSuccessExecution": "all",
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "executionTimeout": 10
+  },
+  "staticData": null,
+  "meta": {
+    "instanceId": "garasje-malerverdier"
+  }
+}
