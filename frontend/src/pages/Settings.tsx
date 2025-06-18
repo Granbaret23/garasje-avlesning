@@ -88,7 +88,7 @@ const Settings: React.FC = () => {
               className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900"
               onClick={(e) => {
                 e.preventDefault();
-                toast.info('Åpne Google Sheets manuelt med URL fra konfigurasjon');
+                toast('Åpne Google Sheets manuelt med URL fra konfigurasjon');
               }}
             >
               <ExternalLink className="h-4 w-4 mr-1" />
