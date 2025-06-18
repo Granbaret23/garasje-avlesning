@@ -1,0 +1,72 @@
+# COPY/PASTE VERDIER FOR UNRAID "ADD CONTAINER"
+
+## GRUNNLEGGENDE INNSTILLINGER
+Name: Garasje-Avlesning
+Repository: torsteinpaulsen/garasje-avlesning:latest
+Network Type: bridge
+Console shell command: sh
+
+## PORT MAPPING
+Name: Web UI
+Container Port: 3001
+Host Port: 3000
+Connection Type: TCP
+
+## VOLUME MAPPINGS
+
+### Volume 1 - Database Data
+Name: Database Data
+Container Path: /app/data
+Host Path: /mnt/user/appdata/garasje-avlesning/data
+Access Mode: Read/Write
+
+### Volume 2 - Image Uploads  
+Name: Image Uploads
+Container Path: /app/uploads
+Host Path: /mnt/user/appdata/garasje-avlesning/uploads
+Access Mode: Read/Write
+
+### Volume 3 - Log Files
+Name: Log Files
+Container Path: /app/logs
+Host Path: /mnt/user/appdata/garasje-avlesning/logs
+Access Mode: Read/Write
+
+### Volume 4 - Configuration
+Name: Configuration
+Container Path: /app/config
+Host Path: /mnt/user/appdata/garasje-avlesning/config
+Access Mode: Read/Write
+
+## ENVIRONMENT VARIABLES
+
+### Påkrevde variabler
+Name: Environment | Key: NODE_ENV | Value: production
+Name: Port | Key: PORT | Value: 3001
+Name: Database Path | Key: DATABASE_PATH | Value: /app/data/readings.db
+Name: Upload Directory | Key: UPLOAD_DIR | Value: /app/uploads
+Name: Log Directory | Key: LOG_DIR | Value: /app/logs
+Name: Log Level | Key: LOG_LEVEL | Value: info
+Name: Timezone | Key: TZ | Value: Europe/Oslo
+
+### Google Sheets variabler (valgfritt - la stå tom hvis ikke brukt)
+Name: Google Service Account | Key: GOOGLE_SERVICE_ACCOUNT_PATH | Value: /app/config/google-service-account.json
+Name: Google Sheet ID | Key: GOOGLE_SHEET_ID | Value: (la stå tom)
+Name: Sync Interval | Key: SYNC_INTERVAL_MINUTES | Value: 60
+
+## AVANSERTE INNSTILLINGER
+Extra Parameters: --restart=unless-stopped
+
+## ETTER OPPRETTELSE
+1. Klikk "Apply" 
+2. Vent på download (2-5 min første gang)
+3. Gå til http://DIN-UNRAID-IP:3000
+4. Start med å legge til første måler i "Administrasjon"
+
+## GOOGLE SHEETS SETUP (VALGFRITT)
+1. Opprett Google Cloud prosjekt og aktiver Sheets API
+2. Lag Service Account og last ned JSON nøkkel
+3. Kopier JSON til: /mnt/user/appdata/garasje-avlesning/config/google-service-account.json
+4. Opprett Google Sheet og del med service account email
+5. Legg til Sheet ID i GOOGLE_SHEET_ID environment variable
+6. Restart container

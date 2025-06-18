@@ -1,0 +1,74 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs
+backend/dist/
+frontend/build/
+*.tsbuildinfo
+
+# Runtime data
+data/
+uploads/
+logs/
+config/
+*.db
+*.db-journal
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+coverage/
+.nyc_output
+junit.xml
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Docker
+.dockerignore
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Runtime directories that should be created by the application
+backend/logs/
+backend/uploads/
+backend/data/
+
+# Google Service Account (sensitive)
+*service-account*.json
+google-credentials.json
+
+# Backup files
+*.backup
+*.bak
+
+# Local development overrides
+docker-compose.override.yml

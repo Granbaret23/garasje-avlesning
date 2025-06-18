@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>Garasje-Avlesning</Name>
+  <Repository>torsteinpaulsen/garasje-avlesning:latest</Repository>
+  <Registry>https://hub.docker.com/r/torsteinpaulsen/garasje-avlesning</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/torsteinpaulsen/garasje-avlesning-templates/issues</Support>
+  <Project>https://github.com/torsteinpaulsen/garasje-avlesning-templates</Project>
+  <Overview>
+    🏠 Garasje Avlesning - Enkel registrering og sporing av måleravlesninger
+    
+    ✅ Responsivt webgrensesnitt
+    📱 Ta bilde av målere eller skriv inn manuelt
+    📊 Automatisk Google Sheets synkronisering
+    📈 Historikk og rapporter
+    💾 Persistent datalagring
+    🔒 Sikker og enkel å bruke
+    
+    ⚠️ VIKTIG: Last ned template manuelt eller kopier konfigurasjonen fra dokumentasjonen.
+  </Overview>
+  <Category>Productivity: Tools:</Category>
+  <WebUI>http://[IP]:[PORT:3000]</WebUI>
+  <TemplateURL></TemplateURL>
+  <Icon>https://raw.githubusercontent.com/torsteinpaulsen/garasje-avlesning-templates/main/docs/icon.png</Icon>
+  <ExtraParams>--restart=unless-stopped</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled>1640995200</DateInstalled>
+  <DonateText>Liker du Garasje Avlesning?</DonateText>
+  <DonateLink>https://github.com/sponsors/torsteinpaulsen</DonateLink>
+  <Description>
+    Garasje Avlesning er en komplett Docker-basert løsning for å registrere og spore måleravlesninger i garasjen din.
+    
+    🔧 ENKEL OPPSETT:
+    - Ingen komplisert konfigurasjon
+    - Alt kjører i én container
+    - Automatisk database opprettelse
+    
+    📱 BRUKERVENNNLIG:
+    - Fungerer på mobil, nettbrett og PC
+    - Ta bilder av målere eller skriv inn manuelt
+    - Intuitiv norsk brukergrensesnitt
+    
+    ☁️ GOOGLE SHEETS (VALGFRITT):
+    - Automatisk backup til Google Sheets
+    - Konfigureres enkelt via miljøvariabler
+    - Fungerer perfekt uten Google Sheets også
+    
+    💾 DATA SIKKERHET:
+    - Alle data lagres lokalt på Unraid
+    - Automatisk Excel eksport
+    - Ingen data sendes til eksterne tjenester (utenom Google Sheets hvis aktivert)
+    
+    🚀 RESSURSEFFEKTIV:
+    - Bruker kun ~256MB RAM
+    - Minimal CPU bruk
+    - SQLite database (ingen ekstern database nødvendig)
+    
+    📋 INSTALLASJON FOR PRIVAT REPO:
+    - Kopier verdier fra dokumentasjonen manuelt
+    - Eller importer template fil lokalt
+    - Se GitHub repository for detaljert setup guide
+  </Description>
+  <Networking>
+    <Mode>bridge</Mode>
+    <Publish>
+      <Port>
+        <HostPort>3000</HostPort>
+        <ContainerPort>3001</ContainerPort>
+        <Protocol>tcp</Protocol>
+      </Port>
+    </Publish>
+  </Networking>
+  <Data>
+    <Volume>
+      <HostDir>/mnt/user/appdata/garasje-avlesning/data</HostDir>
+      <ContainerDir>/app/data</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+    <Volume>
+      <HostDir>/mnt/user/appdata/garasje-avlesning/uploads</HostDir>
+      <ContainerDir>/app/uploads</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+    <Volume>
+      <HostDir>/mnt/user/appdata/garasje-avlesning/logs</HostDir>
+      <ContainerDir>/app/logs</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+    <Volume>
+      <HostDir>/mnt/user/appdata/garasje-avlesning/config</HostDir>
+      <ContainerDir>/app/config</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+  </Data>
+  <Environment>
+    <Variable>
+      <Value>production</Value>
+      <Name>NODE_ENV</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>3001</Value>
+      <Name>PORT</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>/app/data/readings.db</Value>
+      <Name>DATABASE_PATH</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>/app/uploads</Value>
+      <Name>UPLOAD_DIR</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>/app/logs</Value>
+      <Name>LOG_DIR</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>info</Value>
+      <Name>LOG_LEVEL</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>Europe/Oslo</Value>
+      <Name>TZ</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>/app/config/google-service-account.json</Value>
+      <Name>GOOGLE_SERVICE_ACCOUNT_PATH</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value></Value>
+      <Name>GOOGLE_SHEET_ID</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>60</Value>
+      <Name>SYNC_INTERVAL_MINUTES</Name>
+      <Mode/>
+    </Variable>
+  </Environment>
+  <Labels/>
+  
+  <!-- User-configurable settings -->
+  <Config Name="🌐 Web Port" Target="3001" Default="3000" Mode="tcp" Description="Port for web interface (standard: 3000)" Type="Port" Display="always" Required="true" Mask="false"/>
+  
+  <Config Name="💾 Database &amp; Data" Target="/app/data" Default="/mnt/user/appdata/garasje-avlesning/data" Mode="rw" Description="Database og applikasjonsdata (VIKTIG: Må eksistere)" Type="Path" Display="always" Required="true" Mask="false"/>
+  
+  <Config Name="📷 Opplastede Bilder" Target="/app/uploads" Default="/mnt/user/appdata/garasje-avlesning/uploads" Mode="rw" Description="Bilder av målere (VIKTIG: Må eksistere)" Type="Path" Display="always" Required="true" Mask="false"/>
+  
+  <Config Name="📋 Log Filer" Target="/app/logs" Default="/mnt/user/appdata/garasje-avlesning/logs" Mode="rw" Description="Applikasjonslogger" Type="Path" Display="always" Required="true" Mask="false"/>
+  
+  <Config Name="⚙️ Konfigurasjon" Target="/app/config" Default="/mnt/user/appdata/garasje-avlesning/config" Mode="rw" Description="Google Service Account fil (kun nødvendig for Google Sheets)" Type="Path" Display="always" Required="true" Mask="false"/>
+  
+  <Config Name="📊 Google Sheet ID" Target="GOOGLE_SHEET_ID" Default="" Mode="" Description="Google Sheets dokument ID (valgfritt - la stå tom hvis ikke brukt)" Type="Variable" Display="always" Required="false" Mask="false"/>
+  
+  <Config Name="🕐 Synk Intervall" Target="SYNC_INTERVAL_MINUTES" Default="60" Mode="" Description="Hvor ofte synkronisere til Google Sheets (minutter)" Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  
+  <Config Name="📝 Log Nivå" Target="LOG_LEVEL" Default="info" Mode="" Description="Logging detaljer (error/warn/info/debug)" Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  
+  <Config Name="🌍 Tidssone" Target="TZ" Default="Europe/Oslo" Mode="" Description="Tidssone for applikasjonen" Type="Variable" Display="advanced" Required="false" Mask="false"/>
+</Container>

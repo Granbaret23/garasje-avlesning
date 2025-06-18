@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>Garasje-Avlesning</Name>
+  <Repository>torsteinpaulsen/garasje-avlesning</Repository>
+  <Registry>https://hub.docker.com/r/torsteinpaulsen/garasje-avlesning</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/torsteinpaulsen/garasje-avlesning</Support>
+  <Project>https://github.com/torsteinpaulsen/garasje-avlesning</Project>
+  <Overview>
+    En Docker-basert webapplikasjon for registrering og sporing av målerverdier (minusmålere) i garasje, 
+    med automatisk synkronisering til Google Sheets.
+    
+    Funksjoner:
+    - Responsivt webgrensesnitt
+    - Fotografering av målere
+    - Manuell registrering av avlesninger
+    - Google Sheets synkronisering
+    - Historikk og rapportering
+  </Overview>
+  <Category>Tools:</Category>
+  <WebUI>http://[IP]:[PORT:3000]</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/torsteinpaulsen/garasje-avlesning/main/docker/unraid-template.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/torsteinpaulsen/garasje-avlesning/main/docs/icon.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled>1640995200</DateInstalled>
+  <DonateText/>
+  <DonateLink/>
+  <Description>
+    Garasje Avlesning er en komplett løsning for å registrere og spore måleravlesninger. 
+    Applikasjonen tilbyr både manuell registrering og mulighet for å ta bilder av målere.
+    
+    Alle data synkroniseres automatisk til Google Sheets for enkel backup og deling.
+    
+    Konfigurasjoner:
+    - Port: Standard 3000 (kan endres)
+    - Data lagres persistent i /mnt/user/appdata/garasje-avlesning/
+    - Google Sheets krever konfiguration av service account
+  </Description>
+  <Networking>
+    <Mode>bridge</Mode>
+    <Publish>
+      <Port>
+        <HostPort>3000</HostPort>
+        <ContainerPort>3001</ContainerPort>
+        <Protocol>tcp</Protocol>
+      </Port>
+    </Publish>
+  </Networking>
+  <Data>
+    <Volume>
+      <HostDir>/mnt/user/appdata/garasje-avlesning/data</HostDir>
+      <ContainerDir>/app/data</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+    <Volume>
+      <HostDir>/mnt/user/appdata/garasje-avlesning/uploads</HostDir>
+      <ContainerDir>/app/uploads</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+    <Volume>
+      <HostDir>/mnt/user/appdata/garasje-avlesning/logs</HostDir>
+      <ContainerDir>/app/logs</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+    <Volume>
+      <HostDir>/mnt/user/appdata/garasje-avlesning/config</HostDir>
+      <ContainerDir>/app/config</ContainerDir>
+      <Mode>rw</Mode>
+    </Volume>
+  </Data>
+  <Environment>
+    <Variable>
+      <Value>production</Value>
+      <Name>NODE_ENV</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>3001</Value>
+      <Name>PORT</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>/app/data/readings.db</Value>
+      <Name>DATABASE_PATH</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>/app/uploads</Value>
+      <Name>UPLOAD_DIR</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>/app/logs</Value>
+      <Name>LOG_DIR</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>info</Value>
+      <Name>LOG_LEVEL</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>/app/config/google-service-account.json</Value>
+      <Name>GOOGLE_SERVICE_ACCOUNT_PATH</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value></Value>
+      <Name>GOOGLE_SHEET_ID</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>900000</Value>
+      <Name>RATE_LIMIT_WINDOW_MS</Name>
+      <Mode/>
+    </Variable>
+    <Variable>
+      <Value>1000</Value>
+      <Name>RATE_LIMIT_MAX_REQUESTS</Name>
+      <Mode/>
+    </Variable>
+  </Environment>
+  <Labels/>
+  <Config Name="Web UI Port" Target="3001" Default="3000" Mode="tcp" Description="Port for web interface" Type="Port" Display="always" Required="true" Mask="false"/>
+  <Config Name="Data Storage" Target="/app/data" Default="/mnt/user/appdata/garasje-avlesning/data" Mode="rw" Description="Database and application data" Type="Path" Display="always" Required="true" Mask="false"/>
+  <Config Name="Image Uploads" Target="/app/uploads" Default="/mnt/user/appdata/garasje-avlesning/uploads" Mode="rw" Description="Uploaded meter images" Type="Path" Display="always" Required="true" Mask="false"/>
+  <Config Name="Log Files" Target="/app/logs" Default="/mnt/user/appdata/garasje-avlesning/logs" Mode="rw" Description="Application log files" Type="Path" Display="always" Required="true" Mask="false"/>
+  <Config Name="Configuration" Target="/app/config" Default="/mnt/user/appdata/garasje-avlesning/config" Mode="rw" Description="Configuration files (Google Service Account)" Type="Path" Display="always" Required="true" Mask="false"/>
+  <Config Name="Google Sheet ID" Target="GOOGLE_SHEET_ID" Default="" Mode="" Description="Google Sheets document ID for data synchronization" Type="Variable" Display="always" Required="false" Mask="false"/>
+  <Config Name="Log Level" Target="LOG_LEVEL" Default="info" Mode="" Description="Logging level (error, warn, info, debug)" Type="Variable" Display="advanced" Required="false" Mask="false"/>
+</Container>
