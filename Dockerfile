@@ -1,7 +1,7 @@
 # Multi-stage build for optimized production image
 
 # Stage 1: Build frontend
-FROM node:18-alpine AS frontend-builder
+FROM node:16-alpine AS frontend-builder
 
 WORKDIR /app/frontend
 
@@ -16,7 +16,7 @@ COPY frontend/ ./
 RUN npm run build
 
 # Stage 2: Build backend
-FROM node:18-alpine AS backend-builder
+FROM node:16-alpine AS backend-builder
 
 WORKDIR /app/backend
 
@@ -34,7 +34,7 @@ COPY backend/src/ ./src/
 RUN npm run build
 
 # Stage 3: Production image
-FROM node:18-alpine AS production
+FROM node:16-alpine AS production
 
 # Install dumb-init for proper signal handling
 RUN apk add --no-cache dumb-init

@@ -19,7 +19,9 @@
       "Bash(CI=true npm run build)",
       "Bash(rm:*)",
       "Bash(npm run lint)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(node:*)",
+      "Bash(CI=true GENERATE_SOURCEMAP=false npm run build)"
     ],
     "deny": []
   }
