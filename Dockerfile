@@ -17,7 +17,7 @@ RUN if [ ! -d "build" ]; then \
     fi
 
 # Stage 2: Build backend
-FROM node:16-alpine AS backend-builder
+FROM node:20-alpine AS backend-builder
 
 WORKDIR /app/backend
 
@@ -26,7 +26,7 @@ COPY backend/package*.json ./
 COPY backend/tsconfig.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm ci || npm install
 
 # Copy backend source
 COPY backend/src/ ./src/
@@ -35,7 +35,7 @@ COPY backend/src/ ./src/
 RUN npm run build
 
 # Stage 3: Production image
-FROM node:16-alpine AS production
+FROM node:20-alpine AS production
 
 # Install dumb-init for proper signal handling
 RUN apk add --no-cache dumb-init
@@ -55,7 +55,7 @@ COPY --from=frontend-builder /app/frontend/build ./frontend/build
 
 # Install only production dependencies for backend
 WORKDIR /app/backend
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci --only=production || npm install --only=production && npm cache clean --force
 
 # Create directories for data, uploads, and logs
 RUN mkdir -p /app/data /app/uploads /app/logs
