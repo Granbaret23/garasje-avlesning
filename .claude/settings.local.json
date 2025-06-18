@@ -12,7 +12,12 @@
       "Bash(git remote set-url:*)",
       "Bash(git tag:*)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:hub.docker.com)"
+      "WebFetch(domain:hub.docker.com)",
+      "Bash(npm install:*)",
+      "Bash(ls:*)",
+      "Bash(npm run build:*)",
+      "Bash(CI=true npm run build)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }
