@@ -44,17 +44,21 @@ Klikk **"Add another Path, Port, Variable, Label or Device"** → Velg **"Path"*
 ### Steg 6: Environment Variables
 Klikk **"Add another Path, Port, Variable, Label or Device"** → Velg **"Variable"**
 
-**Variable 1:**
-- **Name:** `NC_AUTH_JWT_SECRET`
+**Variable 1 (REQUIRED):**
+- **Name:** `JWT Secret`
 - **Key:** `NC_AUTH_JWT_SECRET`
 - **Value:** `your-super-secret-key-change-this-123456`
 - **Description:** `JWT Secret for authentication`
 
-**Variable 2:**
-- **Name:** `NC_DB`
-- **Key:** `NC_DB`
-- **Value:** `/usr/app/data/noco.db`
-- **Description:** `Database file location`
+**Variable 2 (OPTIONAL - Legg til hvis du får URL error):**
+- **Name:** `Public URL`
+- **Key:** `NC_PUBLIC_URL`
+- **Value:** `http://[DIN-UNRAID-IP]:8080`
+- **Description:** `Public URL for NocoDB`
+
+**VIKTIG:** 
+- Ikke legg til `NC_DB` variabel - la NocoDB håndtere database selv
+- Erstatt `[DIN-UNRAID-IP]` med din faktiske Unraid IP (f.eks. `192.168.1.100`)
 
 ### Steg 7: Apply
 - Klikk **"Apply"** nederst
@@ -264,6 +268,25 @@ IF({måler.siste_verdi}, {verdi} - {måler.siste_verdi}, 0)
 ---
 
 ## 🛠️ Feilsøking
+
+### "Invalid URL" Error i NocoDB:
+**Årsak:** Feil i environment variables
+
+**Løsning:**
+1. Stopp container
+2. Edit container
+3. **Fjern** disse hvis de finnes:
+   - `NC_DB` variabel
+   - Tomme variabler
+4. **Sjekk** at `NC_PUBLIC_URL` har riktig format:
+   - Riktig: `http://192.168.1.100:8080`
+   - Feil: `192.168.1.100:8080` (mangler http://)
+   - Feil: `http://192.168.1.100:8080/` (slash på slutten)
+5. Apply og restart
+
+**Alternativ minimal setup:**
+- Fjern ALLE variabler unntatt `NC_AUTH_JWT_SECRET`
+- La NocoDB bruke standard innstillinger
 
 ### NocoDB fungerer ikke:
 ```bash
