@@ -25,7 +25,7 @@
     "winston": "^3.11.0",
     "googleapis": "^129.0.0",
     "exceljs": "^4.4.0",
-    "sharp": "^0.33.1",
+    "sharp": "^0.34.2",
     "express-rate-limit": "^7.1.5",
     "compression": "^1.7.4",
     "date-fns": "^2.30.0",
